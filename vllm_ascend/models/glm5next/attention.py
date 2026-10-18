@@ -2,6 +2,7 @@
 # SPDX-FileCopyrightText: Copyright contributors to the vLLM project
 
 import torch
+import vllm.transformers_utils.configs.glm5_next as glm5_next  # type: ignore[import-not-found]
 from torch import nn
 from vllm.config import (
     CacheConfig,
@@ -27,7 +28,6 @@ from vllm.model_executor.models.deepseek_v2 import (
     DeepSeekV2FusedQkvAProjLinear,
     yarn_get_mscale,
 )
-from vllm.transformers_utils.configs.glm5_next import Glm5NextConfig
 
 from vllm_ascend.models.glm5next.kv_cache import (
     Glm5NextIndexerCache,
@@ -40,7 +40,7 @@ class Indexer(nn.Module):
     def __init__(
         self,
         vllm_config: VllmConfig,
-        config: Glm5NextConfig,
+        config: glm5_next.Glm5NextConfig,
         hidden_size: int,
         q_lora_rank: int,
         quant_config: QuantizationConfig | None,
@@ -141,7 +141,7 @@ class Glm5NextMLAAttention(nn.Module):
     def __init__(
         self,
         vllm_config: VllmConfig,
-        config: Glm5NextConfig,
+        config: glm5_next.Glm5NextConfig,
         hidden_size: int,
         num_heads: int,
         qk_nope_head_dim: int,
