@@ -15,7 +15,7 @@
 # This file is a part of the vllm-ascend project.
 #
 
-FROM quay.io/ascend/cann:9.1.0-310p-openeuler24.03-py3.12
+FROM quay.io/ascend/cann:9.2.0-310p-openeuler24.03-py3.12
 
 # Build-time arguments (declared once at the top of the stage for clarity).
 # PYTORCH_INDEX_URL (optional): Extra pip index URL for PyTorch wheels.
@@ -36,7 +36,7 @@ ARG COMPILE_CUSTOM_KERNELS=1
 # Release and nightly builds use the same Dockerfile and these exact versions.
 # 310P does not use memfabric/memcache/triton-ascend; only torch-npu is pinned.
 ARG TORCH_NPU_VERSION="26.2.0"
-ARG TORCH_NPU_DATE="20261015.5"
+ARG TORCH_NPU_DATE="20261020.3"
 
 WORKDIR /workspace
 

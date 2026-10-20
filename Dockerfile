@@ -14,7 +14,7 @@
 # limitations under the License.
 # This file is a part of the vllm-ascend project.
 #
-FROM quay.io/ascend/cann:9.1.0-910b-ubuntu22.04-py3.12
+FROM quay.io/ascend/cann:9.2.0-910b-ubuntu22.04-py3.12
 
 # Build-time arguments (declared once at the top of the stage for clarity).
 # PYTORCH_INDEX_URL (optional): Extra pip index URL for PyTorch wheels.
@@ -39,22 +39,22 @@ ARG COMPILE_CUSTOM_KERNELS=1
 # MEMCACHE_VERSION: memcache package version.
 ARG MEMCACHE_VERSION="1.3.0"
 # MEMCACHE_DATE: memcache package build date.
-ARG MEMCACHE_DATE="20261017.1"
+ARG MEMCACHE_DATE="20261020.1"
 # MEMFABRIC_VERSION: memfabric package version.
 ARG MEMFABRIC_VERSION="1.3.0"
 # MEMFABRIC_DATE: memfabric package build date.
-ARG MEMFABRIC_DATE="20261017.1"
+ARG MEMFABRIC_DATE="20261020.1"
 # TORCH_NPU_VERSION: torch_npu package version.
 ARG TORCH_NPU_VERSION="26.2.0"
 # TORCH_NPU_DATE: torch_npu package build date.
-ARG TORCH_NPU_DATE="20261015.5"
+ARG TORCH_NPU_DATE="20261020.3"
 # TRITON_ASCEND_VERSION: triton-ascend package version.
 ARG TRITON_ASCEND_VERSION="20261013220622"
 # TRITON_ASCEND_PACKAGE_VERSION: URL-encoded triton-ascend wheel version.
 ARG TRITON_ASCEND_PACKAGE_VERSION="3.6.0%2Bdev20261013220622"
 # flash-linear-attention-npu
-ARG FLA_VERSION="26.9.1+dev812ccc8"
-ARG FLA_RELEASE_TAG="v26.9.1-20261015-121515"
+ARG FLA_VERSION="26.9.1+dev5cc6990"
+ARG FLA_RELEASE_TAG="v26.9.1-20261020-020004"
 
 WORKDIR /workspace
 
@@ -108,10 +108,10 @@ RUN ARCH=${TARGETPLATFORM:-$(uname -m)}; \
     case "$ARCH" in \
         "linux/arm64"|"aarch64") \
             FLA_WHL="flash_linear_attention_npu_a2-${FLA_VERSION}-py3-none-manylinux_2_34_aarch64.whl"; \
-            FLA_SHA256="b899817028eb6802e1491f9f585ef3e14d375e39dc17d5310891445ea49b8fc1" ;; \
+            FLA_SHA256="2577eca3f1015ca83897bf638046f41cb54691a0c15c433d9e43946fa32d985b" ;; \
         "linux/amd64"|"x86_64") \
             FLA_WHL="flash_linear_attention_npu_a2-${FLA_VERSION}-py3-none-manylinux_2_34_x86_64.whl"; \
-            FLA_SHA256="6aee7a91cc3530009de9adca218d16e842eda1101cdda9c111a8b68830067bb7" ;; \
+            FLA_SHA256="f9e5b2cac5278eee9b781e758a896f6f2dbae42b43b9f36a3073e4493167918a" ;; \
         *) echo "Unsupported arch for flash-linear-attention-npu: $ARCH" && exit 1 ;; \
     esac && \
     FLA_DOWNLOAD_URL="https://github.com/flashserve/flash-linear-attention-npu/releases/download/${FLA_RELEASE_TAG}/${FLA_WHL}" && \
