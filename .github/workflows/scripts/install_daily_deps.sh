@@ -8,15 +8,12 @@ set -euo pipefail
 # ARGs in the Dockerfile (the single source of truth).
 #
 # Required env vars:
-#   MEMFABRIC_VERSION/DATE, MEMCACHE_VERSION/DATE,
-#   TRITON_ASCEND_VERSION/PACKAGE_VERSION, TORCH_NPU_VERSION/DATE
+#   MEMFABRIC_VERSION/DATE, MEMCACHE_VERSION/DATE, TORCH_NPU_VERSION/DATE
 
 : "${MEMFABRIC_VERSION:?MEMFABRIC_VERSION is required}"
 : "${MEMFABRIC_DATE:?MEMFABRIC_DATE is required}"
 : "${MEMCACHE_VERSION:?MEMCACHE_VERSION is required}"
 : "${MEMCACHE_DATE:?MEMCACHE_DATE is required}"
-: "${TRITON_ASCEND_VERSION:?TRITON_ASCEND_VERSION is required}"
-: "${TRITON_ASCEND_PACKAGE_VERSION:?TRITON_ASCEND_PACKAGE_VERSION is required}"
 : "${TORCH_NPU_VERSION:?TORCH_NPU_VERSION is required}"
 : "${TORCH_NPU_DATE:?TORCH_NPU_DATE is required}"
 
@@ -59,11 +56,6 @@ case "${SOC_VERSION:-}" in
         echo "Skip memfabric kernel install (SOC_VERSION=${SOC_VERSION:-})."
         ;;
 esac
-
-# ---- triton-ascend ----
-echo "Install triton-ascend..."
-TRITON_ASCEND_URL="https://ascend-triton-open.obs.cn-north-4.myhuaweicloud.com/triton-ascend/${TRITON_ASCEND_VERSION}/triton_ascend-${TRITON_ASCEND_PACKAGE_VERSION}-cp312-cp312-manylinux_2_27_${ARCH}.manylinux_2_28_${ARCH}.whl"
-python3 -m pip install "$TRITON_ASCEND_URL"
 
 # ---- torch-npu ----
 echo "Download, extract and install torch-npu..."

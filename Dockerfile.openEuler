@@ -50,10 +50,8 @@ ARG MEMFABRIC_DATE="20261020.1"
 ARG TORCH_NPU_VERSION="26.2.0"
 # TORCH_NPU_DATE: torch_npu package build date.
 ARG TORCH_NPU_DATE="20261020.3"
-# TRITON_ASCEND_VERSION: triton-ascend package version.
-ARG TRITON_ASCEND_VERSION="20261013220622"
-# TRITON_ASCEND_PACKAGE_VERSION: URL-encoded triton-ascend wheel version.
-ARG TRITON_ASCEND_PACKAGE_VERSION="3.6.0%2Bdev20261013220622"
+# TRITON_ASCEND_VERSION: triton-ascend release version (from ASCEND_INDEX_URL).
+ARG TRITON_ASCEND_VERSION="3.6.0"
 # flash-linear-attention-npu
 ARG FLA_VERSION="26.9.1+dev5cc6990"
 ARG FLA_RELEASE_TAG="v26.9.1-20261020-020004"
@@ -117,7 +115,7 @@ RUN export PIP_EXTRA_INDEX_URL="${ASCEND_INDEX_URL}" && \
     source /usr/local/Ascend/nnal/atb/set_env.sh && \
     python3 -m pip install -e /vllm-workspace/vllm-ascend/ --extra-index-url ${PYTORCH_INDEX_URL} && \
     python3 -m pip uninstall -y triton triton-ascend && \
-    python3 -m pip install triton-ascend==3.6.0 --extra-index-url ${ASCEND_INDEX_URL} && \
+    python3 -m pip install triton-ascend==${TRITON_ASCEND_VERSION} --extra-index-url ${ASCEND_INDEX_URL} && \
     python3 -m pip install concurrent-log-handler && \
     python3 -m pip cache purge
 
