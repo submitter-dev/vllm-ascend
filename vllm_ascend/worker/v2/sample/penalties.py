@@ -211,6 +211,10 @@ def bincount(
     num_tokens = expanded_idx_mapping.shape[0]
     BLOCK_SIZE = 1024
     num_blocks = triton.cdiv(max_prefill_len, BLOCK_SIZE)
+    # vLLM main's sampler warmup registers fresh requests with prefill_len 0;
+    # a zero-sized grid is invalid on Ascend, and there is nothing to count.
+    if num_tokens == 0 or num_blocks == 0:
+        return
     _bincount_kernel[(num_tokens, num_blocks)](
         expanded_idx_mapping,
         all_token_ids,
